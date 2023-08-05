@@ -14,6 +14,7 @@ public class AirportRepository {
     HashMap<Integer, Flight>FlightDb=new HashMap<>();
     HashMap<Integer,Passenger>PassengerDb=new HashMap<>();
     HashMap<Integer, List<Integer>>flighttopassengersDb=new HashMap<>();
+    HashMap<Integer,Integer>canceltikets=new HashMap<>();
     public void addAirport(Airport airport) {
         String name= airport.getAirportName();
         AirportDB.put(name,airport);
@@ -111,6 +112,7 @@ public class AirportRepository {
             if(passengers.contains(passengerId)){
                 passengers.remove(passengerId);
                 flighttopassengersDb.put(flightId,passengers);
+                canceltikets.put(flightId,canceltikets.getOrDefault(flightId,0)+1);
                 return "SUCCESS";
             }else{
                 return "FAILURE";
@@ -162,12 +164,7 @@ public class AirportRepository {
         //That is of all the passengers that have booked a flight till now and then calculate the revenue
         //Revenue will also decrease if some passenger cancels the flight
 
-        int noOfPeopleBooked = flighttopassengersDb.get(flightId).size();
-        int variableFare = (noOfPeopleBooked*(noOfPeopleBooked+1))*25;
-        int fixedFare = 3000*noOfPeopleBooked;
-        int totalFare = variableFare + fixedFare;
-
-        return totalFare;
+        return calcluateFlightFare(flightId)-canceltikets.getOrDefault(flightId,0)*50;
 
     }
 }
