@@ -164,7 +164,7 @@ public class AirportRepository {
         //That is of all the passengers that have booked a flight till now and then calculate the revenue
         //Revenue will also decrease if some passenger cancels the flight
 
-        return calcluateFlightFare(flightId)-canceltikets.getOrDefault(flightId,0)*50;
+        return calcluateFlightFare(flightId)-canceltikets.getOrDefault(flightId,1)*50;
 
     }
 }
